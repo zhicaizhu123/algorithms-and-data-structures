@@ -10,18 +10,23 @@ function OneWayLinkedList() {
 
 // 查找链表中值为element的节点
 OneWayLinkedList.prototype.find = function (element) {
-  const current = this.head
+  let current = this.head
   if (current === null) return null
-  while(current.element !== element) {
+  if (current.element === element) return current
+  while(current.next !== null) {
     current = current.next
+    if (current.element === element) {
+      return current
+    }
   }
-  return current
+  return null
 }
 
+// 获取值为element的节点的上个节点
 OneWayLinkedList.prototype.findPrev = function (element) {
   const node = this.find(element)
   if (node === null) {
-    return console.log('没有找到要删除的元素')
+    return console.log('没有找到要查询的元素')
   }
   if (this.head.element === element) {
     return null
@@ -78,10 +83,12 @@ OneWayLinkedList.prototype.remove = function(element) {
   this.size--
 }
 
+// 获取链表头
 OneWayLinkedList.prototype.getHead = function() {
   return this.head
 }
 
+// 获取链表长度
 OneWayLinkedList.prototype.length = function () {
   return this.size
 }
