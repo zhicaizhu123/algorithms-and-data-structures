@@ -98,8 +98,8 @@ OneWayCircleLinkedList.prototype.remove = function(element) {
     }
   } else {
     // 否则当前链表只有一个元素可删除
-    this.head = node.next
-    this.tail.next = this.head
+    this.head = null
+    this.tail = null
   }
   this.size--
 }
