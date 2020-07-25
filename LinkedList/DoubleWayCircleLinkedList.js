@@ -26,26 +26,6 @@ DoubleWayCircleLinkedList.prototype.find = function (element) {
   return null;
 };
 
-// 从链表尾部添加一个新的节点
-DoubleWayCircleLinkedList.prototype.push = function (element) {
-  const node = new Node(element);
-  if (this.head === null) {
-    this.head = node;
-    this.tail = node;
-  } else {
-    let current = this.head;
-    while (current.next && current.next !== this.head) {
-      current = current.next;
-    }
-    current.next = node;
-    node.prev = current;
-    node.next = this.head;
-    this.head.prev = node;
-    this.tail = node;
-  }
-  this.size++;
-};
-
 // 向链表中的item节点之后插入一个值为element的新节点
 DoubleWayCircleLinkedList.prototype.insertAfter = function (element, item) {
   const node = new Node(element);
@@ -83,6 +63,85 @@ DoubleWayCircleLinkedList.prototype.remove = function (element) {
     }
   }
   this.size--;
+  return node;
+};
+
+// 从链表尾部添加一个新的节点
+DoubleWayCircleLinkedList.prototype.push = function (element) {
+  const node = new Node(element);
+  if (!this.tail) {
+    this.head = node;
+    this.tail = node;
+  } else {
+    if (this.head === this.tail) {
+      this.head.next = node;
+    } else {
+      this.tail.next = node;
+    }
+    this.head.prev = node;
+    node.prev = this.head;
+    node.next = this.head;
+    this.tail = node;
+  }
+  this.size++;
+};
+
+// 从链表头部添加一个新的节点
+DoubleWayCircleLinkedList.prototype.unshift = function (element) {
+  const node = new Node(element);
+  if (!this.head) {
+    this.head = node;
+    this.tail = node;
+  } else if (this.head === this.tail) {
+    this.head.next = node;
+    this.head.prev = node;
+    node.prev = this.head;
+    node.next = this.head;
+    this.head = node;
+  } else {
+    this.tail.next = node;
+    this.head.prev = node;
+    node.prev = this.tail;
+    node.next = this.head;
+    this.head = node;
+  }
+  this.size++;
+};
+
+// 弹出链表尾部
+DoubleWayCircleLinkedList.prototype.pop = function () {
+  if (!this.tail) {
+    return console.log("当前链表尾空链表");
+  }
+  const tail = this.tail;
+  if (this.head === this.tail) {
+    this.head = null;
+    this.tail = null;
+  } else {
+    this.tail = this.tail.prev;
+    this.tail.next = this.head;
+    this.head.prev = this.tail;
+  }
+  this.size--;
+  return tail;
+};
+
+// 弹出链表头部
+DoubleWayCircleLinkedList.prototype.shift = function () {
+  if (!this.head) {
+    return console.log("当前链表尾空链表");
+  }
+  const head = this.head;
+  if (this.head === this.tail) {
+    this.head = null;
+    this.tail = null;
+  } else {
+    this.head = this.head.next;
+    this.tail.next = this.head;
+    this.head.prev = this.tail;
+  }
+  this.size--;
+  return head;
 };
 
 // 获取链表头
